@@ -1,23 +1,44 @@
-import logo from './logo.svg';
+import React from 'react';
+import { RecoilRoot } from 'recoil';
 import './App.css';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { countAtom } from './store/atom/count';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <RecoilRoot>
+      <>
+        <CountRender />
+        <Buttons />
+      </>
+    </RecoilRoot>
+  );
+}
+
+function CountRender() {
+  const count = useRecoilValue(countAtom);
+  return (
+    <div>
+      <b>{count}</b>
+    </div>
+  );
+}
+
+function Buttons() {
+  const [count, setCount] = useRecoilState(countAtom);
+
+  const increaseCount = () => {
+    setCount(count + 1);
+  };
+
+  const decreaseCount = () => {
+    setCount(count - 1);
+  };
+
+  return (
+    <div>
+      <button onClick={increaseCount}>Increase</button>
+      <button onClick={decreaseCount}>Decrease</button>
     </div>
   );
 }
